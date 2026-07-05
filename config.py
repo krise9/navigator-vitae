@@ -1,0 +1,11 @@
+PROJECT_NAME = "Navigator Vitae"
+
+VERSION = "0.1"
+
+DATA_FOLDER = "data"
+
+QUESTION_FOLDER = "questions"
+
+CURRENT_MBTI_VERSION = "1.0"
+
+CURRENT_IKIGAI_VERSION = "1.0"

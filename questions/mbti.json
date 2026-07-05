@@ -1,0 +1,20 @@
+[
+  {
+    "id": "q1",
+    "dimension": "EI",
+    "text": "Na een drukke dag laad ik vooral op door...",
+    "A": "Alleen zijn",
+    "B": "Mensen opzoeken",
+    "A_score": "I",
+    "B_score": "E"
+  },
+  {
+    "id": "q2",
+    "dimension": "SN",
+    "text": "Ik vertrouw meestal meer op...",
+    "A": "Concrete feiten",
+    "B": "Patronen en mogelijkheden",
+    "A_score": "S",
+    "B_score": "N"
+  }
+]
