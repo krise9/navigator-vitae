@@ -1,13 +1,13 @@
-Navigator Vitae
+# Navigator Vitae
 
-Versie:
-0.1
+Navigator Vitae is een AI-assisted life navigation platform.
 
-Doel:
-Persoonlijk levenskompas.
+Het combineert vijf onafhankelijke lenzen:
 
-Status:
-MBTI in ontwikkeling.
+1. Levensrichting (Ikigai)
+2. Denk- en gedragsvoorkeuren
+3. Levensfase
+4. Levensfilosofie
+5. Persoonlijk actieplan
 
-Volgende stap:
-Ikigai integreren.
+Deze leiden samen tot een persoonlijk Navigator Operating System (NOS).

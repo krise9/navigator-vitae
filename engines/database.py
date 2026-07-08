@@ -3,12 +3,14 @@ import os
 from datetime import datetime
 
 
-def save_response(name, result, filename="responses.csv"):
+def save_response(navigator_id, result, filename="data/responses.csv"):
     file_exists = os.path.isfile(filename)
 
     row = {
         "timestamp": datetime.now().isoformat(timespec="seconds"),
-        "name": name,
+        "navigator_id": navigator_id,
+        "module": "behavior",
+        "version": "v0.1",
         "type": result["type"],
         "E": result["scores"]["E"],
         "I": result["scores"]["I"],
