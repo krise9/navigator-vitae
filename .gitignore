@@ -21,3 +21,4 @@ data/participants/
 
 data/*.csv
 !data/registry.csvresponses.csv
+.streamlit/secrets.toml
