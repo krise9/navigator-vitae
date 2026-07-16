@@ -20,4 +20,4 @@ data/participants/
 # secrets.toml
 
 data/*.csv
-!data/registry.csv
+!data/registry.csvresponses.csv
