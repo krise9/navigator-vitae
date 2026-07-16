@@ -1,0 +1,162 @@
+[
+  {
+    "id": "IKI01",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Wanneer vergeet je de tijd volledig omdat je ergens mee bezig bent?"
+  },
+  {
+    "id": "IKI02",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Denk terug aan de voorbije tien jaar. Welke hobby, interesse of activiteit keert telkens opnieuw terug in je leven, ook al leg je ze soms maanden of jaren naast je neer? Beschrijf enkele voorbeelden."
+  },
+  {
+    "id": "IKI03",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Over welke onderwerpen begin jij spontaan te praten omdat je er enthousiast van wordt?"
+  },
+  {
+    "id": "IKI04",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Stel dat je de komende drie maanden geen financiële zorgen of verplichtingen hebt. Je hoeft niemand iets te bewijzen. Waar zou je je dagen waarschijnlijk aan besteden?"
+  },
+  {
+    "id": "IKI05",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Welke activiteiten blijf je graag doen, ook al ben je er niet uitzonderlijk goed in?"
+  },
+  {
+    "id": "IKI06",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Waarvoor vragen mensen spontaan jouw hulp of advies?"
+  },
+  {
+    "id": "IKI07",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Bij welke activiteiten merk je dat je sneller vooruitgang boekt dan anderen?"
+  },
+  {
+    "id": "IKI08",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Beschrijf een situatie waarin jij een probleem oploste waar anderen al langer op vastliepen."
+  },
+  {
+    "id": "IKI09",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Vertel over één of twee momenten in je leven waarop je achteraf echt trots was op wat je gedaan of bereikt had. Waarom juist die momenten?"
+  },
+  {
+    "id": "IKI10",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Over welke vaardigheden of kwaliteiten spreken andere mensen je regelmatig aan, terwijl ze voor jou vanzelfsprekend lijken?"
+  },
+  {
+    "id": "IKI11",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "world_needs",
+    "text": "Wanneer kijk je naar een organisatie, bedrijf of samenleving en denk je spontaan: “Waarom doen ze dit zo? Dit kan toch veel beter.” Geef enkele voorbeelden."
+  },
+  {
+    "id": "IKI12",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "good_at",
+    "text": "Welke rol neem jij spontaan op wanneer je met een groep mensen samenwerkt? Vertel over een concrete situatie."
+  },
+  {
+    "id": "IKI13",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "world_needs",
+    "text": "Stel dat je morgen één maatschappelijke verandering onmiddellijk zou kunnen realiseren. Welke zou je kiezen, en waarom precies die?"
+  },
+  {
+    "id": "IKI14",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "world_needs",
+    "text": "Vertel over een situatie waarin je merkte dat jouw aanwezigheid of tussenkomst een blijvend verschil maakte voor iemand anders."
+  },
+  {
+    "id": "IKI15",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "world_needs",
+    "text": "Stel dat een stichting jou tien jaar lang volledig financiert om één groot probleem op te lossen. Jij bent de CEO en mag je eigen team samenstellen. Welk probleem kies je? Waarom juist dat?"
+  },
+  {
+    "id": "IKI16",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "paid_for",
+    "text": "Stel dat iemand je vraagt om morgen een workshop van drie uur te geven. Over welk onderwerp zou je zonder veel voorbereiding durven spreken?"
+  },
+  {
+    "id": "IKI17",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "love",
+    "text": "Welk soort projecten geven je achteraf het gevoel: “Hiervoor kom ik graag mijn bed uit.”"
+  },
+  {
+    "id": "IKI18",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "paid_for",
+    "text": "Stel dat iemand jou één probleem toevertrouwt dat je de komende zes maanden mag oplossen. Welk soort problemen hoop je dat mensen aan jou zouden toevertrouwen?"
+  },
+  {
+    "id": "IKI19",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "world_needs",
+    "text": "Als mensen jou over twintig jaar zouden herinneren, waarvoor hoop je dan dat ze jou dankbaar zijn?"
+  },
+  {
+    "id": "IKI20",
+    "module": "ikigai",
+    "version": "v1.1.2",
+    "type": "long_text",
+    "section": "direction",
+    "text": "Stel dat je vandaag opnieuw mocht beginnen met je leven, maar mét alle ervaring die je nu hebt. Welke richting zou je waarschijnlijk veel vroeger inslaan? Waarom?"
+  }
+]
