@@ -32,3 +32,5 @@ private-backups/
 .pytest_cache/
 
 node_modules/
+
+local-checks/

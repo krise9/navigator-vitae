@@ -1,4 +1,4 @@
-"""Invitation-only email OTP login and database-backed authorization."""
+"""Provisioned-account password login and database-backed authorization."""
 import streamlit as st
 
 from engines.supabase_client import get_auth_client, get_supabase
@@ -38,35 +38,25 @@ def require_login() -> None:
         return
 
     st.title('Navigator Vitae')
-    st.write('Meld je aan met het e-mailadres dat bij je uitnodiging hoort.')
-    with st.form('request_code', clear_on_submit=True):
+    st.write('Meld je aan met je persoonlijke e-mailadres en wachtwoord.')
+    with st.form('password_login', clear_on_submit=True):
         email = st.text_input('E-mailadres').strip().lower()
-        requested = st.form_submit_button('Stuur een inlogcode')
-    if requested:
+        password = st.text_input('Wachtwoord', type='password')
+        submitted = st.form_submit_button('Inloggen')
+    if submitted:
         try:
-            client.auth.sign_in_with_otp({'email': email, 'options': {'should_create_user': False}})
+            response = client.auth.sign_in_with_password({'email': email, 'password': password})
+            if not response.session:
+                raise PermissionError('No session')
+            get_supabase()
         except Exception:
-            pass  # Same message for unknown email, rate limits and delivery errors.
-        st.session_state['_login_email'] = email
-        st.info('Als dit adres toegang heeft, ontvang je een code. Controleer ook je spammap. Geen code? Wacht even of neem contact op met de Navigator.')
-    if st.session_state.get('_login_email'):
-        with st.form('verify_code', clear_on_submit=True):
-            token = st.text_input('Eenmalige inlogcode', type='password')
-            submitted = st.form_submit_button('Inloggen')
-        if submitted:
-            try:
-                response = client.auth.verify_otp({'email': st.session_state['_login_email'], 'token': token.strip(), 'type': 'email'})
-                if not response.session:
-                    raise PermissionError('No session')
-                get_supabase()
-            except Exception:
-                clear_session()
-                st.error('De code is ongeldig of verlopen. Vraag een nieuwe code aan.')
-            else:
-                # Keep only the newly authenticated client, discard all prior form state.
-                clear_session()
-                st.session_state['_auth_client'] = client
-                st.rerun()
+            clear_session()
+            st.error('Inloggen is niet gelukt. Controleer je gegevens of probeer het later opnieuw.')
+        else:
+            clear_session()
+            st.session_state['_auth_client'] = client
+            st.rerun()
+    st.caption('Nog geen account of wachtwoord vergeten? Neem contact op met de Navigator. Er worden tijdens deze testfase geen herstelmails verstuurd.')
     st.stop()
 
 

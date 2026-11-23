@@ -14,7 +14,7 @@ def test_sdk_keeps_sessions_separate_and_sends_user_token():
     user={'id':'00000000-0000-0000-0000-000000000001','aud':'authenticated','role':'authenticated','email':'test@example.invalid','email_confirmed_at':'2026-01-01T00:00:00Z','created_at':'2026-01-01T00:00:00Z','app_metadata':{},'user_metadata':{},'is_anonymous':False}
     def handler(request):
         seen.append((request.url.path,request.headers.get('authorization')))
-        if request.url.path.endswith('/verify'):
+        if request.url.path.endswith('/token'):
             return httpx.Response(200,json={'access_token':token,'refresh_token':'synthetic-refresh','token_type':'bearer','expires_in':3600,'user':user})
         if request.url.path.endswith('/user'): return httpx.Response(200,json=user)
         if request.url.path.endswith('/logout'): return httpx.Response(204)
@@ -22,7 +22,7 @@ def test_sdk_keeps_sessions_separate_and_sends_user_token():
     def new_client():
         return create_client('https://example.supabase.co','sb_publishable_synthetic', options=ClientOptions(httpx_client=httpx.Client(transport=httpx.MockTransport(handler)), auto_refresh_token=False))
     a,b=new_client(),new_client()
-    a.auth.verify_otp({'email':'test@example.invalid','token':'synthetic','type':'email'})
+    a.auth.sign_in_with_password({'email':'test@example.invalid','password':'synthetic-password'})
     assert a.auth.get_user().user.email_confirmed_at
     assert b.auth.get_session() is None
     a.table('participants').select('*').execute()
