@@ -36,11 +36,9 @@ class Auth:
         if self.expired: raise ValueError('Expired token')
         assert self.logged_in
         return NS(user=NS(id='synthetic-user', email_confirmed_at='2026-01-01', is_anonymous=False))
-    def sign_in_with_otp(self, payload):
-        assert payload['options']['should_create_user'] is False
+    def sign_in_with_password(self, payload):
         self.requests.append(payload)
-    def verify_otp(self, payload):
-        if payload['token'] != 'synthetic-test-otp': raise ValueError('Invalid OTP')
+        if payload['password'] != 'synthetic-test-password': raise ValueError('Invalid password')
         self.logged_in = True
         return NS(session=NS())
     def sign_out(self): self.logged_in = False
@@ -74,8 +72,7 @@ def app():
 def button(at,label): return next(b for b in at.button if b.label == label)
 def login(at):
     at.text_input[0].set_value('tester@example.invalid')
-    button(at,'Stuur een inlogcode').click().run()
-    next(x for x in at.text_input if x.label=='Eenmalige inlogcode').set_value('synthetic-test-otp')
+    next(x for x in at.text_input if x.label=='Wachtwoord').set_value('synthetic-test-password')
     button(at,'Inloggen').click().run()
     assert not at.exception
 
@@ -106,7 +103,7 @@ def test_full_participant_flow_and_logout(app):
     assert not clients[0].auth.logged_in
 
 
-def test_wrong_otp_and_legacy_state_deny_access(app):
+def test_wrong_password_and_legacy_state_deny_access(app):
     at,clients=app
     at.session_state['active_module']='ikigai'
     at.session_state['ikigai_navigator_id']='TEST-7'
@@ -115,8 +112,7 @@ def test_wrong_otp_and_legacy_state_deny_access(app):
     at.run()
     assert len(at.text_area)==0
     at.text_input[0].set_value('tester@example.invalid')
-    button(at,'Stuur een inlogcode').click().run()
-    next(x for x in at.text_input if x.label=='Eenmalige inlogcode').set_value('wrong')
+    next(x for x in at.text_input if x.label=='Wachtwoord').set_value('wrong')
     button(at,'Inloggen').click().run()
     assert not clients[0].auth.logged_in
     assert len(at.text_area)==0
