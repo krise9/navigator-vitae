@@ -20,5 +20,15 @@ data/participants/
 # secrets.toml
 
 data/*.csv
-!data/registry.csvresponses.csv
+
 .streamlit/secrets.toml
+
+.env
+.env.*
+secrets.toml
+private-backups/
+*.fernet
+*.key
+.pytest_cache/
+
+node_modules/

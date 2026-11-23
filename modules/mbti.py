@@ -4,7 +4,7 @@ import streamlit as st
 
 from engines.database import has_completed_behavior, save_response
 from engines.mbti_engine import calculate_mbti
-from engines.registry import get_person
+from engines.auth import current_participant, is_admin
 
 
 MODULE_VERSION = "v0.1"
@@ -19,6 +19,8 @@ def load_mbti_questions() -> list[dict]:
 
 def render_admin_result(result: dict, navigator_id: str, full_name: str) -> None:
     """Toont het resultaat van de huidige inzending aan de Navigator."""
+    if not is_admin():
+        raise PermissionError("Administrator required.")
     st.divider()
     st.subheader("Admin-weergave")
 
@@ -76,25 +78,8 @@ def render_mbti_module() -> None:
 
     questions = load_mbti_questions()
 
-    navigator_id = st.text_input(
-        "Navigator ID",
-        placeholder="Bijvoorbeeld: NV-2026-000001",
-        key="mbti_navigator_id",
-    ).strip()
-
-    if not navigator_id:
-        return
-
-    try:
-        person = get_person(navigator_id)
-    except Exception as error:
-        st.error("De verbinding met de deelnemersdatabase is mislukt.")
-        st.exception(error)
-        return
-
-    if not person:
-        st.error("Navigator ID niet gevonden.")
-        return
+    person = current_participant()
+    navigator_id = person['navigator_id']
 
     first_name = person.get("first_name", "")
     last_name = person.get("last_name", "")
@@ -107,7 +92,6 @@ def render_mbti_module() -> None:
         already_completed = has_completed_behavior(navigator_id)
     except Exception as error:
         st.error("De eerdere deelname kon niet worden gecontroleerd.")
-        st.exception(error)
         return
 
     if already_completed:
@@ -167,7 +151,6 @@ def render_mbti_module() -> None:
         save_response(navigator_id, result)
     except Exception as error:
         st.error("Het resultaat kon niet worden opgeslagen.")
-        st.exception(error)
         return
 
     st.success("Bedankt. Je antwoorden zijn opgeslagen.")
@@ -175,16 +158,3 @@ def render_mbti_module() -> None:
     st.session_state["last_result"] = result
     st.session_state["last_navigator_id"] = navigator_id
     st.session_state["last_person_name"] = full_name
-
-    admin_code = st.text_input(
-        "Admin code",
-        type="password",
-        key="mbti_admin_code",
-    )
-
-    if admin_code == "kris123":
-        render_admin_result(
-            result=result,
-            navigator_id=navigator_id,
-            full_name=full_name,
-        )

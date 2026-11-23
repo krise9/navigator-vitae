@@ -1,5 +1,7 @@
 import streamlit as st
 
+from engines.auth import require_login, is_admin, render_admin
+
 from modules.ikigai import render_ikigai_module
 from modules.mbti import render_mbti_module
 
@@ -52,6 +54,11 @@ def render_navigation() -> None:
 
 
 def main() -> None:
+    require_login()
+    if is_admin():
+        if st.sidebar.radio('Weergave', ['Deelnemer', 'Beheer']) == 'Beheer':
+            render_admin()
+            return
     active_module = st.session_state.get("active_module")
 
     if not active_module:
@@ -73,4 +80,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        st.error("Deze actie is momenteel niet beschikbaar. Meld je opnieuw aan of neem contact op met de Navigator.")
