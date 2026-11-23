@@ -1,5 +1,1 @@
-from engines.supabase_client import get_participant
-
-participant = get_participant("NV-2026-000000")
-
-print(participant)
+"""Run pytest tests/ for checks using synthetic data; never probe real participant IDs."""

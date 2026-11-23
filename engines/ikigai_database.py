@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Dict, Optional
 
 from engines.supabase_client import get_participant, get_supabase
@@ -11,15 +10,7 @@ def save_ikigai_responses(
     navigator_id: str,
     answers: Dict[str, str],
 ) -> str:
-    """
-    Bewaart één volledige Ikigai-inzending.
-
-    Werkwijze:
-    1. Zoekt de deelnemer op.
-    2. Maakt één record in ikigai_runs.
-    3. Maakt één record per antwoord in ikigai_responses.
-    4. Geeft het run_id terug.
-    """
+    """Bewaart alle antwoorden atomair, onder de rechten van de deelnemer."""
     supabase = get_supabase()
     participant = get_participant(navigator_id)
 
@@ -35,45 +26,8 @@ def save_ikigai_responses(
     if not clean_answers:
         raise ValueError("No Ikigai answers provided.")
 
-    run_row = {
-        "participant_id": participant["id"],
-        "navigator_id": navigator_id.strip(),
-        "module_version": IKIGAI_VERSION,
-        "status": "completed",
-        "started_at": datetime.utcnow().isoformat(),
-        "submitted_at": datetime.utcnow().isoformat(),
-    }
-
-    run_response = (
-        supabase
-        .table("ikigai_runs")
-        .insert(run_row)
-        .execute()
-    )
-
-    if not run_response.data:
-        raise RuntimeError("Ikigai run could not be created.")
-
-    run_id = run_response.data[0]["id"]
-
-    response_rows = [
-        {
-            "run_id": run_id,
-            "question_id": question_id,
-            "answer": answer,
-            "created_at": datetime.utcnow().isoformat(),
-        }
-        for question_id, answer in clean_answers.items()
-    ]
-
-    (
-        supabase
-        .table("ikigai_responses")
-        .insert(response_rows)
-        .execute()
-    )
-
-    return run_id
+    response = supabase.rpc('submit_ikigai', {'p_navigator_id': navigator_id.strip(), 'p_answers': clean_answers}).execute()
+    return response.data
 
 
 def has_completed_ikigai(navigator_id: str) -> bool:

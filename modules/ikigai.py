@@ -7,7 +7,7 @@ from engines.ikigai_database import (
     load_ikigai_responses,
     save_ikigai_responses,
 )
-from engines.registry import get_person
+from engines.auth import current_participant, is_admin
 
 
 MODULE_VERSION = "v1.1.2"
@@ -39,20 +39,13 @@ def render_existing_answers(navigator_id: str) -> None:
     Toont bestaande antwoorden alleen wanneer de Navigator
     daar expliciet toegang toe geeft.
     """
-    admin_code = st.text_input(
-        "Admin code",
-        type="password",
-        key="ikigai_admin_code",
-    )
-
-    if admin_code != None:
+    if not is_admin():
         return
 
     try:
         answers = load_ikigai_responses(navigator_id)
     except Exception as error:
         st.error("De opgeslagen antwoorden konden niet worden geladen.")
-        st.exception(error)
         return
 
     if not answers:
@@ -88,25 +81,8 @@ def render_ikigai_module() -> None:
 
     questions = load_ikigai_questions()
 
-    navigator_id = st.text_input(
-        "Navigator ID",
-        placeholder="Bijvoorbeeld: NV-2026-000001",
-        key="ikigai_navigator_id",
-    ).strip()
-
-    if not navigator_id:
-        return
-
-    try:
-        person = get_person(navigator_id)
-    except Exception as error:
-        st.error("De verbinding met de deelnemersdatabase is mislukt.")
-        st.exception(error)
-        return
-
-    if not person:
-        st.error("Navigator ID niet gevonden.")
-        return
+    person = current_participant()
+    navigator_id = person['navigator_id']
 
     first_name = person.get("first_name", "")
     last_name = person.get("last_name", "")
@@ -116,7 +92,6 @@ def render_ikigai_module() -> None:
         already_completed = has_completed_ikigai(navigator_id)
     except Exception as error:
         st.error("De eerdere deelname kon niet worden gecontroleerd.")
-        st.exception(error)
         return
 
     if already_completed:
@@ -187,7 +162,6 @@ def render_ikigai_module() -> None:
         )
     except Exception as error:
         st.error("De antwoorden konden niet worden opgeslagen.")
-        st.exception(error)
         return
 
     st.session_state["ikigai_submitted"] = True
