@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from engines.supabase_client import get_participant, get_supabase
 
@@ -28,7 +28,7 @@ def save_response(navigator_id: str, result: dict) -> None:
         "sn_position": result["axis_positions"]["S_N"],
         "tf_position": result["axis_positions"]["T_F"],
         "jp_position": result["axis_positions"]["J_P"],
-        "submitted_at": datetime.utcnow().isoformat(),
+        "submitted_at": datetime.now(timezone.utc).isoformat(),
     }
 
     (

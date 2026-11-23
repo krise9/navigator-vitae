@@ -1,0 +1,1 @@
+{"private":true,"scripts":{"test:rls":"node tests/rls.mjs"},"devDependencies":{"@electric-sql/pglite":"0.5.17"}}
