@@ -29,6 +29,9 @@ update participants set auth_user_id='${user(7)}' where navigator_id='TEST-7';
 insert into app_admins values('${user(9)}');`);
 async function as(role,id='') {await db.exec(`reset role; set role ${role}; select set_config('request.jwt.claim.sub','${id}',false);`)}
 async function denied(sql,params=[]) {await assert.rejects(()=>db.query(sql,params));passed++}
+await as('service_role');
+for (const t of [...tables,'app_admins']) await denied(`select * from ${t}`);
+await denied(`select submit_ikigai('TEST-7','{}')`);
 await as('anon');
 for (const t of [...tables,'app_admins']) await denied(`select * from ${t}`);
 await denied(`select submit_ikigai('TEST-7','{}')`);

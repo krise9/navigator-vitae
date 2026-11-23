@@ -1,4 +1,5 @@
 -- Synthetic test schema reflecting the inspected production columns and constraints.
+create role service_role bypassrls;
 create role anon;
 create role authenticated;
 create schema auth;
@@ -22,3 +23,6 @@ create table behavior_results(id uuid primary key default gen_random_uuid(),part
  e_score int not null,i_score int not null,s_score int not null,n_score int not null,t_score int not null,f_score int not null,j_score int not null,p_score int not null,
  ie_position numeric not null,sn_position numeric not null,tf_position numeric not null,jp_position numeric not null,
  submitted_at timestamptz not null default now(),unique(participant_id,module_version));
+
+grant usage on schema public,auth to service_role;
+grant all on all tables in schema public to service_role;

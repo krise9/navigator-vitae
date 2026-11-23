@@ -1,6 +1,6 @@
 # Persoonlijke toegang: migratie en testbewijs
 
-Status: productieomschakeling en geschiedenisopschoning goedgekeurd door Kris op 23 november 2026; nog niet toegepast. Kris koos persoonlijke wachtwoorden voor de testfase omdat er geen eigen maildienst is. De huidige publieke app blijft kwetsbaar tot de gecontroleerde omschakeling is uitgevoerd.
+Status: productieomschakeling en geschiedenisopschoning goedgekeurd door Kris op 23 november 2026; database-migratie inmiddels toegepast. Kris koos persoonlijke wachtwoorden voor de testfase omdat er geen eigen maildienst is. De huidige publieke app blijft kwetsbaar tot de gecontroleerde omschakeling is uitgevoerd.
 
 ## Wat verandert
 
@@ -76,7 +76,7 @@ Uitgevoerd, zonder productie te wijzigen:
 
 - `python -m pytest tests -q`: 10 tests geslaagd. Streamlit: wachtwoordlogin, weigering onjuist wachtwoord, oud sessiestaat/ID geeft geen toegang, 20 Ikigai-antwoorden opslaan, volledige MBTI-vragenlijst opslaan, uitloggen wist data, verlopen sessie, adminlidmaatschap, ongekoppeld account en geweigerde privileged keys. Auth-transport is hierbij gesimuleerd.
 - De echte Supabase Python SDK is met gesimuleerde HTTP-responses getest: gebruikers-JWT gaat naar PostgREST, twee clients delen geen login, logout verwijdert de clienttoken.
-- `npm run test:rls`: 30 controles geslaagd met echte PostgreSQL-semantiek via PGlite, fictieve data. Aantallen 7/4/80/6 blijven gelijk bij migratie; anoniem/ongekoppeld ziet niets; eigenaar ziet alleen zichzelf; admin ziet alle dossiers; escalatie, lezen/schrijven voor anderen, ID-verwisseling, wijzigen/verwijderen en dubbels worden geblokkeerd; een fout tijdens het opslaan draait de volledige Ikigai-inzending terug; intrekking admin/actieve status werkt.
+- `npm run test:rls`: 36 controles geslaagd met echte PostgreSQL-semantiek via PGlite, fictieve data. Aantallen 7/4/80/6 blijven gelijk bij migratie; anoniem/ongekoppeld ziet niets; eigenaar ziet alleen zichzelf; admin ziet alle dossiers; escalatie, lezen/schrijven voor anderen, ID-verwisseling, wijzigen/verwijderen en dubbels worden geblokkeerd; een fout tijdens het opslaan draait de volledige Ikigai-inzending terug; intrekking admin/actieve status werkt.
 - Pythonbestanden compileren. Geen sleutelpatronen gevonden in de onderzochte actuele tekstbestanden. Dit is geen garantie dat er nooit secrets in historische commits hebben gestaan.
 
 Nog niet uitgevoerd: echte Supabase wachtwoord-Auth en PostgREST-end-to-end, stagingdeployment, productieconfiguratie, accountkoppeling, sleutelrotatie, productie-deployment, opschoning Git-historiek en hersteltest van de echte back-up in Supabase. Productie blijft onveranderd tot de vereiste echte inlogcontrole is geslaagd.
@@ -86,3 +86,15 @@ Nog niet uitgevoerd: echte Supabase wachtwoord-Auth en PostgREST-end-to-end, sta
 Laat bij een fout de app in onderhoud. Herstel de applicatie met een gecorrigeerde beveiligde versie; zet nooit de oude ID-only toegang terug aan. De migratie verwijdert geen bestaande data, dus de nieuwe kolom/tabellen/policies kunnen blijven staan terwijl de fout wordt opgelost. Een dataherstel is alleen een laatste redmiddel, na vergelijking van actuele data met de back-up en afzonderlijk akkoord; overschrijf geen nieuw werk.
 
 Referenties: [Supabase OTP](https://supabase.com/docs/guides/auth/auth-email-passwordless), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [API keys](https://supabase.com/docs/guides/api/api-keys).
+
+## Uitvoering op 23 november 2026
+
+- Persoonlijke wachtwoordlogin door de eigenaar succesvol getest tegen echte Supabase Auth.
+- Beheeraccount via de Supabase-interface door de eigenaar aangemaakt; wachtwoord is niet door de agent opgehaald of opgeslagen.
+- Publieke registratie uitgezet; anonymous sign-in stond al uit. Geen SMTP ingesteld.
+- Migratie `individual_password_auth_owner_rls` toegepast. Beheerrechten expliciet gekoppeld.
+- Toegang van `service_role` tot alle dossier- en beheertabellen ingetrokken: een oude bevoorrechte app kan deze gegevens niet meer benaderen. Dit is aanvullende afscherming; de oude projectsleutel zelf wordt hiermee niet ingetrokken.
+- De volledige inhoudshashes van de vier bestaande tabellen komen na migratie overeen met vóór de migratie (nieuwe lege eigenaarskolom buiten vergelijking). Aantallen blijven 7/4/80/6.
+- Echte Supabase/RLS-controles geslaagd voor admin en ongekoppeld account. De persoonlijke gebruikerssessie heeft via de echte PostgREST-verbinding de beheerweergave bereikt.
+- De zeven bestaande deelnemers zijn nog niet aan Auth-accounts gekoppeld. Koppel pas na verificatie van identiteit en persoonlijke accountgegevens; geen automatische e-mailmatching.
+- Websiteomschakeling en publicatie van opgeschoonde geschiedenis volgen na deze controle. Dit uitvoeringsverslag heeft voorrang op de eerdere voorbereidende statusbeschrijvingen.

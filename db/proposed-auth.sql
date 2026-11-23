@@ -7,7 +7,7 @@ create table public.app_admins (
   user_id uuid primary key references auth.users(id) on delete cascade
 );
 alter table public.app_admins enable row level security;
-revoke all on public.app_admins from public, anon, authenticated;
+revoke all on public.app_admins from public, anon, authenticated, service_role;
 grant select on public.app_admins to authenticated;
 create policy admin_self on public.app_admins for select to authenticated
   using (user_id = (select auth.uid()));
@@ -24,7 +24,7 @@ alter table public.participants enable row level security;
 alter table public.ikigai_runs enable row level security;
 alter table public.ikigai_responses enable row level security;
 alter table public.behavior_results enable row level security;
-revoke all on public.participants, public.ikigai_runs, public.ikigai_responses, public.behavior_results from public, anon, authenticated;
+revoke all on public.participants, public.ikigai_runs, public.ikigai_responses, public.behavior_results from public, anon, authenticated, service_role;
 grant select on public.participants to authenticated;
 grant select, insert on public.ikigai_runs, public.ikigai_responses, public.behavior_results to authenticated;
 
@@ -92,6 +92,6 @@ begin
     select new_run,key,value from jsonb_each_text(p_answers);
   return new_run;
 end $$;
-revoke all on function public.submit_ikigai(text,jsonb) from public, anon;
+revoke all on function public.submit_ikigai(text,jsonb) from public, anon, service_role;
 grant execute on function public.submit_ikigai(text,jsonb) to authenticated;
 commit;
